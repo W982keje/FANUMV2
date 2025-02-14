@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('image.png') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar h1 {
+            color: red;
+            font-size: 24px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 10px;
+            margin: 5px 0;
+            cursor: pointer;
+            color: white;
+            border: 1px solid white;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .sidebar ul li:hover {
+            color: red;
+        }
+        .content {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 50px;
+            font-weight: bold;
+            text-shadow: 0 0 20px cyan;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h1>Dashboard</h1>
+        <ul>
+            <li onclick="location.href='index.html'">Dashboard</li>
+            <li onclick="location.href='cookiestorage.html'">Cookie Storage</li>
+            <li onclick="location.href='hyperlink.html'">Hyperlink</li>
+            <li onclick="location.href='settings.html'">Settings</li>
+            <li onclick="location.href='bypasser.html'">Bypasser [EXCLUSIVE ⭐]</li>
+        </ul>
+    </div>
+    <div class="content">
+        COMING SOON!
+    </div>
+</body>
+</html>

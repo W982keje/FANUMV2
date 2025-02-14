@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyperlink-page</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom right, #2b044d, #000);
+            color: white;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: rgba(50, 0, 70, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            border-right: 3px solid rgba(255, 255, 255, 0.2);
+        }
+        .sidebar h1 {
+            color: #bb86fc;
+            font-size: 24px;
+            text-shadow: 0 0 10px #bb86fc;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 10px;
+            margin: 5px 0;
+            cursor: pointer;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            text-align: center;
+            transition: 0.3s ease-in-out;
+        }
+        .sidebar ul li:hover {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 10px #bb86fc;
+            transform: scale(1.05);
+            color: cyan;
+        }
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        .content {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+        .panel {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            border: 3px solid rgba(187, 134, 252, 0.8);
+            box-shadow: 0 0 15px rgba(187, 134, 252, 1);
+            text-align: center;
+            width: 80%;
+            transition: 0.3s ease-in-out;
+        }
+        .panel:hover {
+            box-shadow: 0 0 25px rgba(187, 134, 252, 1);
+        }
+        .panel h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .input-container {
+            display: flex;
+            align-items: center;
+            background: rgba(50, 0, 70, 0.9);
+            border-radius: 5px;
+            padding: 5px;
+        }
+        .input-container input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: none;
+            color: white;
+            font-size: 16px;
+            outline: none;
+        }
+        .button {
+            background: #bb86fc;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            display: block;
+            margin: 20px auto;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: 0.3s ease-in-out;
+        }
+        .button:hover {
+            background: #9a67ea;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            transform: scale(1.05);
+        }
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(187, 134, 252, 1);
+            visibility: hidden;
+            opacity: 0;
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+        }
+        .popup.show {
+            visibility: visible;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .popup h2 {
+            color: #bb86fc;
+        }
+        .popup button {
+            margin-top: 10px;
+            padding: 10px;
+            cursor: pointer;
+            background: #bb86fc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: 0.3s ease-in-out;
+        }
+        .popup button:hover {
+            background: #9a67ea;
+        }
+        .success-text {
+            font-size: 18px;
+            font-weight: bold;
+            color: cyan;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h1>FANUM V2</h1>
+        <ul>
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="hyperlink.html">Hyperlink</a></li>
+            <li><a href="controller.html">Controller</a></li>
+            <li><a href="settings.html">Settings</a></li>
+            <li><a href="bypasser.html">Bypasser [EXCLUSIVE ⭐]</a></li>
+        </ul>
+    </div>
+    <div class="content">
+        <div class="panel">
+            <h2>Hyperlink for Discord</h2>
+            <div class="input-container">
+                <input type="text" id="urlInput" placeholder="Enter your Discord URL">
+            </div>
+            <button class="button" onclick="shortenURL()">Create Now</button>
+        </div>
+    </div>
+    <div id="popup" class="popup">
+        <h2>Success</h2>
+        <p class="success-text">Successfully shortened the URL!</p>
+        <p id="shortenedUrl"></p>
+        <button id="copyBtn" onclick="copyToClipboard()">Copy</button>
+        <button onclick="closePopup()">OK</button>
+    </div>
+    <script>
+        function shortenURL() {
+            const urlInput = document.getElementById("urlInput").value;
+            if (!urlInput) return;
+            fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(urlInput)}`)
+                .then(response => response.text())
+                .then(shortUrl => {
+                    const formattedUrl = urlInput.replace(/https:\/\//, 'https//');
+                    document.getElementById("shortenedUrl").textContent = `[${formattedUrl}](${shortUrl})`;
+                    document.getElementById("popup").classList.add("show");
+                });
+        }
+
+        function copyToClipboard() {
+            const text = document.getElementById("shortenedUrl").textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const copyBtn = document.getElementById("copyBtn");
+                copyBtn.textContent = "Copied!";
+                setTimeout(() => {
+                    copyBtn.textContent = "Copy";
+                }, 1000);
+            });
+        }
+
+        function closePopup() {
+            document.getElementById("popup").classList.remove("show");
+        }
+    </script>
+</body>
+</html>

