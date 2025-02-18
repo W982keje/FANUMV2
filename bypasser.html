@@ -24,10 +24,33 @@
             animation: fadeIn 0.5s ease-in-out;
             border: 2px solid #6a1b9a; /* Purple border */
         }
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(-20px); }
-            100% { opacity: 1; transform: translateY(0); }
+
+        .text-center {
+            margin-top: 20px;
         }
+
+        .button.red {
+            background-color: #d32f2f;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button.red:hover {
+            background-color: #c62828;
+        }
+
+        .button.red:active {
+            background-color: #b71c1c;
+        }
+
+        /* Rest of your existing CSS */
         textarea { 
             width: 100%; 
             height: 200px; 
@@ -72,7 +95,7 @@
 <body>
 
 <div class="container">
-    <h1>+13 TO -13</h1> <!-- Keeping the title as you wanted -->
+    <h1>+13 TO -13</h1>
     <div class="form-box">
         <form id="bypassForm">
             <label for="payload">Enter Cookies:</label><br>
@@ -83,6 +106,10 @@
     </div>
     <br>
     <p>Join Discord here: <a href="https://discord.gg/95mrFB2RTn" target="_blank">https://discord.gg/95mrFB2RTn</a></p>
+    <!-- Added Go Back button -->
+    <div class="text-center">
+        <a href="index.html" class="button red">Go Back</a>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
